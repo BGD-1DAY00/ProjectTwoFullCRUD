@@ -203,3 +203,144 @@ test('expect button with text "send" to dispatch SEND_REPLY when user clicks',()
     userEvent.click(button)
     expect(dispatch).toHaveBeenCalledWith({type: SEND_REPLY, replys: {message: 'hello',  reply:'a', sendTo:{user_id: 123}, sendFrom: {userFromId: 12,userFromName: 'sam' }}})
 })
+
+test('expect an H2 with text "Message Send: hello"',()=>{
+    const dispatch = jest.fn()
+    const _useSelector = (fn)=>{
+        return fn({
+            messagesReducer:{
+                messages: [
+                    {
+                        message: 'hello',
+                        sendTo:{},
+                        sendFrom: {}
+                    },
+                    
+                ],
+                replys: [
+                    {
+                        reply: 'hi',
+                        sendFrom:{
+                            userFromId:12
+                        },
+                        sendTo:{
+                            username: 'sam'
+                        },
+                        message: 'hello'
+                    }
+                ],
+              
+            },
+            homeStored:{
+                user_id: 12
+            }
+        })
+    }
+    render(<DisplayMessages _useDispatch = {()=>dispatch} _useSelector={_useSelector} />)
+    expect(screen.getByText('Message Sent: hello').tagName).toBe('H2')
+})
+
+test('expect an H2 with text "hi"',()=>{
+    const dispatch = jest.fn()
+    const _useSelector = (fn)=>{
+        return fn({
+            messagesReducer:{
+                messages: [
+                    {
+                        message: 'hello',
+                        sendTo:{},
+                        sendFrom: {}
+                    },
+                    
+                ],
+                replys: [
+                    {
+                        reply: 'hi',
+                        sendFrom:{
+                            userFromId:12
+                        },
+                        sendTo:{
+                            username: 'sam'
+                        },
+                        message: 'hello'
+                    }
+                ],
+              
+            },
+            homeStored:{
+                user_id: 12
+            }
+        })
+    }
+    render(<DisplayMessages _useDispatch = {()=>dispatch} _useSelector={_useSelector} />)
+    expect(screen.getByText('Reply: hi').tagName).toBe('H2')
+})
+
+test('expect an H3 with text "From: sam"',()=>{
+    const dispatch = jest.fn()
+    const _useSelector = (fn)=>{
+        return fn({
+            messagesReducer:{
+                messages: [
+                    {
+                        message: 'hello',
+                        sendTo:{},
+                        sendFrom: {}
+                    },
+                    
+                ],
+                replys: [
+                    {
+                        reply: 'hi',
+                        sendFrom:{
+                            userFromId:12
+                        },
+                        sendTo:{
+                            username: 'sam'
+                        },
+                        message: 'hello'
+                    }
+                ],
+              
+            },
+            homeStored:{
+                user_id: 12
+            }
+        })
+    }
+    render(<DisplayMessages _useDispatch = {()=>dispatch} _useSelector={_useSelector} />)
+    expect(screen.getByText('From: sam').tagName).toBe('H3')
+})
+test('expect to not display an H2 with text "Sent:", not to display an H3 with text "Reply: hi", not to display an H3 with text "From: "',()=>{
+    const dispatch = jest.fn()
+    const _useSelector = (fn)=>{
+        return fn({
+            messagesReducer:{
+                messages: [
+                    {
+                        message: 'hello',
+                        sendTo:{},
+                        sendFrom: {}
+                    },
+                    
+                ],
+                replys: [
+                    
+                ],
+              
+            },
+            homeStored:{
+                user_id: 12
+            }
+        })
+    }
+    render(<DisplayMessages _useDispatch = {()=>dispatch} _useSelector={_useSelector} />)
+    const messageSentText = screen.queryByPlaceholderText('Message Sent:')
+    expect(messageSentText).not.toBeInTheDocument()
+
+    const replyText = screen.queryByPlaceholderText('Reply:')
+    expect(replyText).not.toBeInTheDocument()
+
+    const fromText = screen.queryByPlaceholderText('From:')
+    expect(fromText).not.toBeInTheDocument()
+})
