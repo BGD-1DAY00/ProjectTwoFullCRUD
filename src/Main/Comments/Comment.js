@@ -31,8 +31,6 @@ export const Comment = ({ each , _useDispatch = useDispatch, _useSelector = useS
   }
    const ind = comments
    .map((i) => {
-     console.log(each)
-     console.log(i)
      if (i.comment.thread_id=== each.thread_id) {
        return i;
       }

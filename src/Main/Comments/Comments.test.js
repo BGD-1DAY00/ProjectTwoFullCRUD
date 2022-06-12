@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ADDING_COMMENT, ADD_TO_COMMENTS, EDIT_POST, GO_TO_EDIT_POSTS } from "../../Store/reducers/actions/actions";
+import { ADDING_COMMENT, ADD_TO_COMMENTS, EDIT_POST, GO_TO_EDIT_POSTS, UPDATE_AFTER_DELTE_COMMENT } from "../../Store/reducers/actions/actions";
 import {Comment} from './Comment'
 
 test('expect an h4 tag with the text "Comments:" ', ()=>{
@@ -128,6 +128,26 @@ test('expect to display a button with text Delete when the userID(homestored) is
     const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
     render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
     expect(screen.getByText('Delete').tagName).toBe('BUTTON')
+})
+
+test('expect to display a button with text Delete when the userID(homestored) is the same as the userID on the comment(comments array) to dispatch UPDATE_AFTER_DELETE_COMMENT', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}, comment_id: 1234}, {comment: {comment:'hello', date: '5678', thread_id: '456', user: 5678}}]
+            },
+            homeStored:{
+                user_id: 1234
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    const button = screen.getByText('Delete')
+    userEvent.click(button)
+    expect(dispatch).toHaveBeenCalledWith({type: UPDATE_AFTER_DELTE_COMMENT, comments: [ {comment: {comment:'hello', date: '5678', thread_id: '456', user: 5678}}] })
 })
 test('expect not to display a button with text Delete when the userID(homestored) is not the same as the userID on the comment(comments array)', ()=>{
     const dispatch = jest.fn()
