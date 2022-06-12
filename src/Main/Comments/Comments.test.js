@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { ADDING_COMMENT, ADD_TO_COMMENTS } from "../../Store/reducers/actions/actions";
+import { ADDING_COMMENT, ADD_TO_COMMENTS, EDIT_POST, GO_TO_EDIT_POSTS } from "../../Store/reducers/actions/actions";
 import {Comment} from './Comment'
 
 test('expect an h4 tag with the text "Comments:" ', ()=>{
@@ -55,6 +55,97 @@ test('expect a button with text Edit when the userID(homestored) is the same as 
     render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
     const button = screen.getByText('Edit')
     expect(button.tagName).toBe('BUTTON')
+})
+test('expect a button with text Edit when the userID(homestored) is the same as the userID on the comment(comments array); it should dispatch GO_TO_EDIT_POSTS', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}]
+            },
+            homeStored:{
+                user_id: 1234
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    const button = screen.getByText('Edit')
+    userEvent.click(button)
+    expect(dispatch).toHaveBeenCalledWith({type: GO_TO_EDIT_POSTS})
+})
+test('expect a button with text Edit when the userID(homestored) is the same as the userID on the comment(comments array); it should dispatch EDIT_POST ', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}]
+            },
+            homeStored:{
+                user_id: 1234
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    const button = screen.getByText('Edit')
+    userEvent.click(button)
+    expect(dispatch).toHaveBeenCalledWith({type: EDIT_POST, post: {comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}})
+})
+test('expect not to display a button with text Edit when the userID(homestored) is not the same as the userID on the comment(comments array)', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}]
+            },
+            homeStored:{
+                user_id: 12345//different
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    const button = screen.queryByText('Edit')
+    expect(button).not.toBeInTheDocument()
+})
+test('expect to display a button with text Delete when the userID(homestored) is the same as the userID on the comment(comments array)', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}]
+            },
+            homeStored:{
+                user_id: 1234
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    expect(screen.getByText('Delete').tagName).toBe('BUTTON')
+})
+test('expect not to display a button with text Delete when the userID(homestored) is not the same as the userID on the comment(comments array)', ()=>{
+    const dispatch = jest.fn()
+    const _useSelector =(fn)=>{
+        return fn({
+            editThreadReducer:{
+                comment: 'hello',
+                comments: [{comment:{comment: 'bye', date: '1234', thread_id: 123, user: 1234}}]
+            },
+            homeStored:{
+                user_id: 12345//different
+            }
+        })
+    }
+    const each = {comment: 'bye', date: '1234', thread_id: 123, user: 747}
+    render(<Comment each={each} _useDispatch={()=>dispatch} _useSelector={_useSelector} />)
+    const button = screen.queryByText('Delete')
+    expect(button).not.toBeInTheDocument()
 })
 
 test('expect a p tag with the date property displayed', ()=>{
