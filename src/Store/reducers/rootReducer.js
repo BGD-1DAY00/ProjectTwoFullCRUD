@@ -237,7 +237,7 @@ const editThreadInit = {
   array: null
 };
 export function editThreadReducer(state = editThreadInit, action) {
-  switch (action.type) {
+  switch (action?.type) {
     case UPDATE_INFO:
       return {
         ...state,
@@ -305,7 +305,7 @@ const initMessages = {
 };
 
 export function messagesReducer(state = initMessages, action) {
-  switch (action.type) {
+  switch (action?.type) {
     case SENDING_TO:
       return {
         ...state,
@@ -347,7 +347,7 @@ const initSearch = {
 };
 
 export function searchReducer(state = initSearch, action) {
-  switch (action.type) {
+  switch (action?.type) {
     case SEARCHING:
       return {
         ...state,
