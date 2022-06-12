@@ -291,3 +291,46 @@ test(`If showMessages state is true we should display the component Messages`, (
   render(<App _Messages={_Messages} _useSelector={_useSelector} />);
   expect(screen.getByText("hello")).toBeInTheDocument();
 });
+
+test(`If showEditPosts state is true we should display the component Edit Comments`, () => {
+  const _useSelector = (fn) => {
+    return fn({
+      homeStored: {
+        pass: false, //should be true
+        showEntry: true, //should be true
+        showCreateAccount: false, //false
+        showLogin: false, //false
+        showThread: false, //false
+        showEdit: false, //false
+        user_id: null, //null
+        userName: null, //null
+        showMessages: false, //false
+        showEditPosts: true, //true
+      },
+    });
+  };
+  const _EditComments = () => "hello";
+  render(<App _EditComments={_EditComments} _useSelector={_useSelector} />);
+  expect(screen.getByText("hello")).toBeInTheDocument();
+});
+test(`If showEditPosts state is true we should display and H1 tag with text "Welcome to the Reddit Kind-OF?"`, () => {
+  const _useSelector = (fn) => {
+    return fn({
+      homeStored: {
+        pass: false, //should be true
+        showEntry: true, //should be true
+        showCreateAccount: false, //false
+        showLogin: false, //false
+        showThread: false, //false
+        showEdit: false, //false
+        user_id: null, //null
+        userName: null, //null
+        showMessages: false, //false
+        showEditPosts: true, //true
+      },
+    });
+  };
+  const _EditComments = () => "hello";
+  render(<App _EditComments={_EditComments} _useSelector={_useSelector} />);
+  expect(screen.getByText('Welcome to the Reddit Kind-OF?').tagName).toBe('H1')
+});

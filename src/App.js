@@ -23,6 +23,7 @@ function App({
   _Nav = Nav,
   _TrendingPanel = TrendingPanel,
   _useDispatch = useDispatch,
+  _EditComments = EditComments
 }) {
   const pass = _useSelector((state) => state.homeStored.pass);
   const showCreateAccount = _useSelector(
@@ -122,7 +123,7 @@ function App({
     return (
       <div className="App">
         <h1 style={{ textAlign: "center" }}>Welcome to the Reddit Kind-OF?</h1>
-        <EditComments />
+        <_EditComments />
       </div>
     );
   }

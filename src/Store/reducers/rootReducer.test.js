@@ -1,5 +1,5 @@
 import {screen, render} from '@testing-library/react'
-import { ADDING_COMMENT, ADDING_TO_THREAD, ADDING_TO_UPDATING_COMMENT, ADD_FIRST_NAME, ADD_LAST_NAME, ADD_THREAD, ADD_TO_COMMENTS, BACK_TO_MAIN_PAGE, CREATE_ACCOUNT, CREATE_THREAD, CREATE_USER, EDIT_POST, ENTER_USERNAME_PASSWORD, GO_BACK_HOME_FROM_CREATE_ACCOUNT, GO_TO_EDIT, GO_TO_EDIT_POSTS, GO_TO_MAIN_PAGE, GO_TO_MESSAGES, HOLD_DATA, LOGIN_FAILED, LOGIN_USER, SEARCHING, SENDING_MESSAGE, SENDING_REPLY, SEND_MESSAGE, SEND_REPLY, UPDATED_THREAD, UPDATE_AFTER_DELETE_THREAD, UPDATE_AFTER_DELTE_COMMENT, UPDATE_EDIT_COMMENTS, UPDATE_INFO, UPDATING_COMMENT, USER_EXIST } from './actions/actions'
+import { ADDING_COMMENT, ADDING_TO_THREAD, ADDING_TO_UPDATING_COMMENT, ADD_FIRST_NAME, ADD_LAST_NAME, ADD_THREAD, ADD_TO_COMMENTS, BACK_TO_MAIN_PAGE, CREATE_ACCOUNT, CREATE_THREAD, CREATE_USER, EDIT_POST, ENTER_USERNAME_PASSWORD, GO_BACK_HOME_FROM_CREATE_ACCOUNT, GO_TO_EDIT, GO_TO_EDIT_POSTS, GO_TO_MAIN_PAGE, GO_TO_MESSAGES, HOLD_DATA, LOGIN_FAILED, LOGIN_USER, SEARCHING, SENDING_MESSAGE, SENDING_REPLY, SENDING_TO, SEND_MESSAGE, SEND_REPLY, UPDATED_THREAD, UPDATE_AFTER_DELETE_THREAD, UPDATE_AFTER_DELTE_COMMENT, UPDATE_EDIT_COMMENTS, UPDATE_INFO, UPDATING_COMMENT, USER_EXIST } from './actions/actions'
 import { createStored, editThreadReducer, homeStored, mainThread, messagesReducer, searchReducer } from './rootReducer'
 
 test('expect homeStored to init to the correct state', ()=>{
@@ -484,6 +484,19 @@ test('expect messageReducer init to the correct state', ()=>{
         messages: [],
         reply: "",
         replys: [],
+    })
+})
+test('expect messageReducer init to change when action SENDING_T0 is dispatched', ()=>{
+    const initState = messagesReducer()
+    const state = messagesReducer(initState, {type: SENDING_TO, sendTo: 'hello', sendingFrom: 'hello'})
+    expect(state).toStrictEqual({
+        sendTo: 'hello',
+        sendingFrom: null,
+        message: "",
+        messages: [],
+        reply: "",
+        replys: [],
+        sendFrom:'hello'
     })
 })
 
