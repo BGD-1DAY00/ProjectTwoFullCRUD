@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { MainPage } from '../Main/MainPage'
 import { ADD_FIRST_NAME, ADD_LAST_NAME, USER_EXIST, GO_BACK_HOME_FROM_CREATE_ACCOUNT,LOGIN_FAILED, GO_TO_MAIN_PAGE} from '../Store/reducers/actions/actions'
-
+import {Button} from 'react-bootstrap'
 export const Login = ({_useDispatch, _useSelector}) => {
   const dispatch = _useDispatch()
   const username = _useSelector(state=> state.createStored.username)
@@ -34,7 +34,7 @@ export const Login = ({_useDispatch, _useSelector}) => {
     <div>
         <div style={{display:'flex'}}>
           <h2 style={{marginRight: '1rem', }}>LOG IN ESTEEMED USER</h2>
-          <button style={{background: 'none', borderRadius: '1rem'}} onClick={()=>{dispatch({type:GO_BACK_HOME_FROM_CREATE_ACCOUNT})}}>Go Back</button>
+          <Button style={{background: 'none', borderRadius: '1rem'}} onClick={()=>{dispatch({type:GO_BACK_HOME_FROM_CREATE_ACCOUNT})}}>Go Back</Button>
         </div>
         <form>
             <label htmlFor="">Username:</label>
@@ -43,7 +43,7 @@ export const Login = ({_useDispatch, _useSelector}) => {
             <label htmlFor="">Password:</label>
             <input placeholder='Password' style={{padding: '.55rem',margin: '1rem', fontSize: '1.3rem', width: '12rem'}} onChange={onValueChangeLastName} value={password} type="text" />
 
-            <button style={{position:'relative', bottom:'2rem', padding:'1rem', background:'none'}} onClick={checkForUser}>Log In</button>
+            <Button style={{position:'relative', bottom:'2rem', padding:'1rem', background:'none'}} onClick={checkForUser}>Log In</Button>
         </form>
         {loginUserExist ? <h4>Login Failed, Please Create A User</h4>: null}
 

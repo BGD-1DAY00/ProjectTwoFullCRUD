@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ADD_THREAD, CREATE_THREAD } from '../../Store/reducers/actions/actions'
 import { v4 as uuidv4 } from 'uuid';
+import {Button} from 'react-bootstrap'
 
 
 export const CreateThread = ({_useDispatch = useDispatch, _useSelector = useSelector, _Date = Date, _uuidv4 = uuidv4}) => {
@@ -31,7 +32,7 @@ export const CreateThread = ({_useDispatch = useDispatch, _useSelector = useSele
         <form action="">
             <label style={{fontSize:'1.5rem'}} htmlFor="">Create Thread: </label>
             <input placeholder='Add Thread...' style={{borderRadius:'1rem', marginRight:'.6rem', padding:'.5rem', background:'cornsilk'}} onChange={addingThread} value={thread} type="text" />
-            <button style={{padding:'.6rem', background:'none', borderRadius:'1rem'}} onClick={addToMainThread}>Submit</button>
+            <Button color="success" style={{padding:'.6rem', background:'none', borderRadius:'1rem'}} onClick={addToMainThread}>Submit</Button>
         </form>
 
     </div>

@@ -10,6 +10,7 @@ import {
   ENTER_USERNAME_PASSWORD
 } from "../Store/reducers/actions/actions";
 import { v4 as uuidv4 } from "uuid";
+import {Button} from 'react-bootstrap'
 
 export const CreateAccount = ({
   _useDispatch = useDispatch,
@@ -66,13 +67,13 @@ export const CreateAccount = ({
     <div className="CreateAccount">
       <div className='CreateAccount-heading'>
         <h1>Creating New User :)</h1>
-        <button
+        <Button
           onClick={() => {
             dispatch({ type: GO_BACK_HOME_FROM_CREATE_ACCOUNT });
           }}
         >
           Go Back
-        </button>
+        </Button>
       </div>
       <form >
         <label htmlFor="">Username: </label>
@@ -81,7 +82,7 @@ export const CreateAccount = ({
         <label htmlFor="">Password:  &nbsp;</label>
         <input onChange={onValueChangeLastName} placeholder='Last Name' value={password} type="text" />
         
-        <button onClick={createUser}>Add User</button>
+        <Button onClick={createUser}>Add User</Button>
       </form>
       {user_password? (
         <div>
